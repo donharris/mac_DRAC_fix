@@ -1,0 +1,40 @@
+To enable old Dell DRAC cards to work with newer versions of Java on a Mac (mine is running Mojave)
+  you need to disable (or rather 'enable') an unsecure format in java.
+
+So, run 'locate java.security' and you'll likely have a couple of them.
+Currently this is what minue looks like:
+/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/security/java.security
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/conf/security/java.security
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/jmods/java.security.jgss.jmod
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/jmods/java.security.sasl.jmod
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/legal/java.security.jgss
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/legal/java.security.jgss/COPYRIGHT
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/legal/java.security.jgss/LICENSE
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/legal/java.security.sasl
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/legal/java.security.sasl/COPYRIGHT
+/Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/legal/java.security.sasl/LICENSE
+
+the one that I edited, which worked for me was the first one, for "Internet Plug-Ins".
+I changed the second one, thinking that's the file that java was using, but it didn't work. Unless you need to change both
+  which is how my laptop is configured now, so, it won't hurt.
+
+Change this line to remove RC4:
+(this is how it will likely read on your system)
+jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, \
+    EC keySize < 224, 3DES_EDE_CBC, anon, NULL
+    
+(this is how it should read after your change)
+jdk.tls.disabledAlgorithms=SSLv3, DES, MD5withRSA, DH keySize < 1024, \
+    EC keySize < 224, 3DES_EDE_CBC, anon, NULL
+  
+Save your file and you should be able to access your Dell DRAC cards.
+
+If you can't, you need to edit the security listings:
+1. open System Preferences
+2. select Java (which will open the java control panel)
+3. select Security (from the top menu)
+4. select "Edit Site List..."
+5. Add your DRAC card hostname/IP address - i.e. https://db01-drac
+6. click OK
+
+then you should be good to go!
