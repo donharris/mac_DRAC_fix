@@ -2,7 +2,7 @@ To enable old Dell DRAC cards to work with newer versions of Java on a Mac (mine
   you need to disable (or rather 'enable') an unsecure format in java.
 
 So, run 'locate java.security' and you'll likely have a couple of them.
-Currently this is what minue looks like:
+Currently this is what mine looks like:
 /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/security/java.security
 /Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/conf/security/java.security
 /Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/jmods/java.security.jgss.jmod
@@ -15,8 +15,6 @@ Currently this is what minue looks like:
 /Library/Java/JavaVirtualMachines/jdk-11.0.2.jdk/Contents/Home/legal/java.security.sasl/LICENSE
 
 the one that I edited, which worked for me was the first one, for "Internet Plug-Ins".
-I changed the second one, thinking that's the file that java was using, but it didn't work. Unless you need to change both
-  which is how my laptop is configured now, so, it won't hurt.
 
 Change this line to remove RC4:
 (this is how it will likely read on your system)
